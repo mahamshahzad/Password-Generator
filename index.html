@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Password Generator</title>
+  <style>
+    body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 2rem; }
+    .container { max-width: 400px; width: 100%; display: flex; flex-direction: column; gap: 1rem; }
+    label { display: flex; justify-content: space-between; align-items: center; }
+    input[type="number"] { width: 60px; }
+    button { padding: 0.5rem 1rem; cursor: pointer; }
+    #passwordOutput { width: 100%; padding: 0.5rem; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Password Generator</h1>
+  <div class="container">
+    <label>
+      Length:
+      <input type="number" id="length" min="4" max="64" value="12" />
+    </label>
+    <label>
+      <span>Include Uppercase Letters</span>
+      <input type="checkbox" id="uppercase" checked />
+    </label>
+    <label>
+      <span>Include Lowercase Letters</span>
+      <input type="checkbox" id="lowercase" checked />
+    </label>
+    <label>
+      <span>Include Numbers</span>
+      <input type="checkbox" id="numbers" checked />
+    </label>
+    <label>
+      <span>Include Symbols</span>
+      <input type="checkbox" id="symbols" checked />
+    </label>
+    <button id="generateBtn">Generate Password</button>
+    <textarea id="passwordOutput" rows="3" readonly placeholder="Your generated password will appear here..."></textarea>
+  </div>
+
+  <script>
+    const generateBtn = document.getElementById('generateBtn');
+    const lengthInput = document.getElementById('length');
+    const uppercaseInput = document.getElementById('uppercase');
+    const lowercaseInput = document.getElementById('lowercase');
+    const numbersInput = document.getElementById('numbers');
+    const symbolsInput = document.getElementById('symbols');
+    const passwordOutput = document.getElementById('passwordOutput');
+
+    const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+    const numberChars = '0123456789';
+    const symbolChars = '!@#$%^&*()_+{}[]:;<>,.?/|~';
+
+    function generatePassword() {
+      let chars = '';
+      if (uppercaseInput.checked) chars += uppercaseChars;
+      if (lowercaseInput.checked) chars += lowercaseChars;
+      if (numbersInput.checked) chars += numberChars;
+      if (symbolsInput.checked) chars += symbolChars;
+
+      const length = parseInt(lengthInput.value, 10);
+      if (!chars) {
+        alert('Please select at least one character type.');
+        return;
+      }
+
+      let password = '';
+      for (let i = 0; i < length; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+
+      passwordOutput.value = password;
+    }
+
+    generateBtn.addEventListener('click', generatePassword);
+  </script>
+</body>
+</html>
